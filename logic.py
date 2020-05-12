@@ -148,7 +148,7 @@ async def waterboyprog(ws):
 
 
 @bot.command(name='commands')
-async def askldjfa(ctx):
+async def listCommands(ctx):
     await ctx.send("!games, !uptime, !time, !test")
 
 
