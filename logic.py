@@ -19,6 +19,7 @@
 import os # for importing env vars for the bot to use
 import time as builtintime
 import datetime
+from pytz import timezone
 import math
 import asyncio
 import random
@@ -34,7 +35,8 @@ bot = commands.Bot(
     client_id=os.environ['CLIENT_ID'],
     nick=os.environ['BOT_NICK'],
     prefix=os.environ['BOT_PREFIX'],
-    initial_channels=[os.environ['CHANNEL']]
+    initial_channels=[os.environ['CHANNEL']],
+    client_secret=os.environ['CLIENT_SECRET']
 )
 
 @bot.event
@@ -70,7 +72,7 @@ async def test(ctx):
 
 @bot.command(name='time')
 async def time(ctx):
-        await ctx.send(builtintime.strftime("%b %e, %l:%M %p"))
+        await ctx.send(datetime.datetime.now(tz=timezone('US/Pacific')).strftime("%b %e, %l:%M %p"))
 
 
 @bot.command(name='uptime')
@@ -136,10 +138,13 @@ async def games(ctx):
     await ctx.send(f"here's a random sample of a few games hackoon_ has available to play: {str(random.sample(gamelist, 3))}")
 
 async def waterboyprog(ws):
-    waterboyprog = await bot.get_stream("hackoon_")
-    while waterboyprog is not None:
-        await ws.send_privmsg(os.environ['CHANNEL'], f"/me says 'Drink some water!'")
-        await asyncio.sleep(3600/2)
+    while True:
+        waterboyprog = await bot.get_stream("hackoon_")
+        if waterboyprog is not None:
+            await ws.send_privmsg(os.environ['CHANNEL'], f"/me says 'Drink some water!'")
+            await asyncio.sleep(1800) #30 minutes
+        else:
+            await asyncio.sleep(900) #15 minutes
 
 
 
