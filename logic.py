@@ -17,7 +17,6 @@
 
 
 import os # for importing env vars for the bot to use
-import time as builtintime
 import datetime
 from pytz import timezone
 import math
@@ -71,7 +70,7 @@ async def test(ctx):
     await ctx.send('test passed!')
 
 @bot.command(name='time')
-async def time(ctx):
+async def currentTime(ctx):
         await ctx.send(datetime.datetime.now(tz=timezone('US/Pacific')).strftime("%b %e, %l:%M %p"))
 
 
@@ -149,7 +148,7 @@ async def waterboyprog(ws):
 
 
 @bot.command(name='commands')
-async def commands(ctx):
+async def askldjfa(ctx):
     await ctx.send("!games, !uptime, !time, !test")
 
 
